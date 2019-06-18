@@ -13,6 +13,8 @@ parts:
     plugin: kernel
     source: https://github.com/boundarydevices/linux-imx6.git
     source-branch: boundary-imx_4.14.x_2.0.0_ga
+    override-build: |
+            export ARCH=arm
     source-type: git
     kdefconfig: [nitrogen6x_defconfig]
     kconfigs:
