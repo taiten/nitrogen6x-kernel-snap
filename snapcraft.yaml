@@ -1,0 +1,29 @@
+name: nitrogen6x-kernel
+version: 4.14
+summary: A Nitrogen6X kernel built from source
+description: This provides a kernel snap for Boundary Device Nitrogen6x board
+type: kernel
+architectures: [ armhf ]
+confinement: strict
+
+parts:
+  kernel:
+    plugin: kernel
+    source: https://github.com/boundarydevices/linux-imx6.git
+    source-branch: boundary-imx_4.14.x_2.0.0_ga
+    source-type: git
+    kdefconfig: [nitrogen6x_defconfig]
+    kconfigs:
+      - CONFIG_LOCALVERSION="-nitrogen6x"
+      - CONFIG_DEBUG_INFO=n
+      - CONFIG_EXT4_FS=y
+      - CONFIG_BLK_DEV_LOOP=y
+      - CONFIG_BLK_DEV_LOOP_MIN_COUNT=256
+      - CONFIG_SQUASHFS=m
+    kernel-initrd-modules:
+      - squashfs
+    kernel-initrd-firmware:
+    kernel-image-target: Image
+    kernel-device-trees:
+      - imx6q-nitrogen6x
+    build-packages: [debootstrap, lsb-release]
