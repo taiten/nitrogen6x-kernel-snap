@@ -1,7 +1,7 @@
 name: nitrogen6x-kernel
 version: 4.14
 summary: A Nitrogen6X kernel built from source
-description: This provides a kernel snap for Boundary Device Nitrogen6x board
+description: This provides a kernel snap for Boundary Device Nitrogen6X board
 type: kernel
 architectures: [ armhf ]
 confinement: strict
@@ -22,7 +22,6 @@ parts:
       - CONFIG_SQUASHFS=m
     kernel-initrd-modules:
       - squashfs
-    kernel-initrd-firmware:
     kernel-image-target: Image
     kernel-device-trees:
       - imx6q-nitrogen6x
