@@ -3,7 +3,9 @@ version: 4.9
 summary: A Nitrogen6X kernel built from source
 description: This provides a kernel snap for Boundary Device Nitrogen6X board
 type: kernel
-architectures: [armhf]
+architectures: 
+      - build-on: [arm64,amd64]
+        run-on: armhf
 confinement: strict
 
 parts:
@@ -12,11 +14,6 @@ parts:
     source: https://github.com/boundarydevices/linux-imx6.git
     source-branch: boundary-imx_4.9.x_1.0.0_ga
     source-type: git
-    override-build: |
-            export ARCH=arm
-            export CROSS_COMPILE=arm-linux-gnueabihf-
-            make boundary_defconfig
-            make zImage dtbs modules -j`cat /proc/cpuinfo |grep -c cpu`
     kdefconfig: [boundary_defconfig]
     kconfigs:
       - CONFIG_LOCALVERSION="-nitrogen6x"
@@ -25,7 +22,11 @@ parts:
       - CONFIG_BLK_DEV_LOOP=y
       - CONFIG_BLK_DEV_LOOP_MIN_COUNT=256
       - CONFIG_SQUASHFS=m
+      - CONFIG_ENCRYPTED_KEYS=y
+      - CONFIG_SQUASHFS_XATTR=y
+      - CONFIG_DEVPTS_MULTIPLE_INSTANCES=y
+      - CONFIG_BLK_DEV_BSG=y
     kernel-initrd-modules:
       - squashfs
-    kernel-image-target: Image
-    build-packages: [debootstrap, lsb-release, crossbuild-essential-armhf]
+    kernel-image-target: zImage
+    build-packages: [debootstrap, lsb-release, lzop]
